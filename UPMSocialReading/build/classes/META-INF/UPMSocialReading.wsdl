@@ -1,0 +1,192 @@
+<wsdl2:description xmlns:wsdl2="http://www.w3.org/ns/wsdl" xmlns:wsoap="http://www.w3.org/ns/wsdl/soap" xmlns:whttp="http://www.w3.org/ns/wsdl/http" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdlx="http://www.w3.org/ns/wsdl-extensions" xmlns:tns="http://sos.fi.upm.es" xmlns:wrpc="http://www.w3.org/ns/wsdl/rpc" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://sos.fi.upm.es/xsd" xmlns:ns1="http://org.apache.axis2/xsd" targetNamespace="http://sos.fi.upm.es"><wsdl2:types><xs:schema xmlns:ns="http://sos.fi.upm.es" xmlns:ax22="http://sos.fi.upm.es/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://sos.fi.upm.es">
+<xs:import namespace="http://sos.fi.upm.es/xsd" />
+<xs:element name="logout">
+<xs:complexType>
+<xs:sequence />
+</xs:complexType>
+</xs:element>
+<xs:element name="changePassword">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:PasswordPair" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="changePasswordResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addFriend">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Username" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addFriendResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="removeFriend">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Username" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="removeFriendResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyFriendList">
+<xs:complexType>
+<xs:sequence />
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyFriendListResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:FriendList" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="login">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:User" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="loginResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="removeUser">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Username" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="removeUserResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addReading">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Book" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addReadingResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:Response" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyReadings">
+<xs:complexType>
+<xs:sequence />
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyReadingsResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:TitleList" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyFriendReadings">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Username" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getMyFriendReadingsResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:TitleList" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addUser">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="args0" nillable="true" type="ax22:Username" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="addUserResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="return" nillable="true" type="ax22:AddUserResponse" />
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema><xs:schema xmlns:ns="http://sos.fi.upm.es" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://sos.fi.upm.es/xsd">
+<xs:complexType name="PasswordPair">
+<xs:sequence>
+<xs:element minOccurs="0" name="newpwd" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="oldpwd" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Response">
+<xs:sequence>
+<xs:element minOccurs="0" name="response" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Username">
+<xs:sequence>
+<xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="FriendList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="friends" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="result" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="User">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="pwd" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Book">
+<xs:sequence>
+<xs:element minOccurs="0" name="author" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="calification" type="xs:int" />
+<xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TitleList">
+<xs:sequence>
+<xs:element minOccurs="0" name="result" type="xs:boolean" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="titles" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="pwd" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="response" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema></wsdl2:types><wsdl2:interface name="ServiceInterface"><wsdl2:operation name="logout" style="http://www.w3.org/ns/wsdl/style/rpc http://www.w3.org/ns/wsdl/style/iri http://www.w3.org/ns/wsdl/style/multipart" wrpc:signature="" pattern="http://www.w3.org/ns/wsdl/in-only" wsdlx:safe="false"><wsdl2:input element="tns:logout" wsaw:Action="urn:logout" /></wsdl2:operation><wsdl2:operation name="addFriend" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:addFriend" wsaw:Action="urn:addFriend" /><wsdl2:output element="tns:addFriendResponse" wsaw:Action="urn:addFriendResponse" /></wsdl2:operation><wsdl2:operation name="removeFriend" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:removeFriend" wsaw:Action="urn:removeFriend" /><wsdl2:output element="tns:removeFriendResponse" wsaw:Action="urn:removeFriendResponse" /></wsdl2:operation><wsdl2:operation name="getMyFriendReadings" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:getMyFriendReadings" wsaw:Action="urn:getMyFriendReadings" /><wsdl2:output element="tns:getMyFriendReadingsResponse" wsaw:Action="urn:getMyFriendReadingsResponse" /></wsdl2:operation><wsdl2:operation name="getMyFriendList" style="http://www.w3.org/ns/wsdl/style/rpc http://www.w3.org/ns/wsdl/style/iri http://www.w3.org/ns/wsdl/style/multipart" wrpc:signature="return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:getMyFriendList" wsaw:Action="urn:getMyFriendList" /><wsdl2:output element="tns:getMyFriendListResponse" wsaw:Action="urn:getMyFriendListResponse" /></wsdl2:operation><wsdl2:operation name="addUser" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:addUser" wsaw:Action="urn:addUser" /><wsdl2:output element="tns:addUserResponse" wsaw:Action="urn:addUserResponse" /></wsdl2:operation><wsdl2:operation name="removeUser" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:removeUser" wsaw:Action="urn:removeUser" /><wsdl2:output element="tns:removeUserResponse" wsaw:Action="urn:removeUserResponse" /></wsdl2:operation><wsdl2:operation name="getMyReadings" style="http://www.w3.org/ns/wsdl/style/rpc http://www.w3.org/ns/wsdl/style/iri http://www.w3.org/ns/wsdl/style/multipart" wrpc:signature="return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:getMyReadings" wsaw:Action="urn:getMyReadings" /><wsdl2:output element="tns:getMyReadingsResponse" wsaw:Action="urn:getMyReadingsResponse" /></wsdl2:operation><wsdl2:operation name="addReading" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:addReading" wsaw:Action="urn:addReading" /><wsdl2:output element="tns:addReadingResponse" wsaw:Action="urn:addReadingResponse" /></wsdl2:operation><wsdl2:operation name="changePassword" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:changePassword" wsaw:Action="urn:changePassword" /><wsdl2:output element="tns:changePasswordResponse" wsaw:Action="urn:changePasswordResponse" /></wsdl2:operation><wsdl2:operation name="login" style="http://www.w3.org/ns/wsdl/style/rpc" wrpc:signature="args0 #in return #return " pattern="http://www.w3.org/ns/wsdl/in-out" wsdlx:safe="false"><wsdl2:input element="tns:login" wsaw:Action="urn:login" /><wsdl2:output element="tns:loginResponse" wsaw:Action="urn:loginResponse" /></wsdl2:operation></wsdl2:interface><wsdl2:binding name="UPMSocialReadingSoap12Binding" interface="tns:ServiceInterface" type="http://www.w3.org/ns/wsdl/soap" wsoap:version="1.2"><wsdl2:operation ref="tns:logout" wsoap:action="urn:logout" /><wsdl2:operation ref="tns:addFriend" wsoap:action="urn:addFriend" /><wsdl2:operation ref="tns:removeFriend" wsoap:action="urn:removeFriend" /><wsdl2:operation ref="tns:getMyFriendReadings" wsoap:action="urn:getMyFriendReadings" /><wsdl2:operation ref="tns:getMyFriendList" wsoap:action="urn:getMyFriendList" /><wsdl2:operation ref="tns:addUser" wsoap:action="urn:addUser" /><wsdl2:operation ref="tns:removeUser" wsoap:action="urn:removeUser" /><wsdl2:operation ref="tns:getMyReadings" wsoap:action="urn:getMyReadings" /><wsdl2:operation ref="tns:addReading" wsoap:action="urn:addReading" /><wsdl2:operation ref="tns:changePassword" wsoap:action="urn:changePassword" /><wsdl2:operation ref="tns:login" wsoap:action="urn:login" /></wsdl2:binding><wsdl2:service name="UPMSocialReading" interface="tns:ServiceInterface"><wsdl2:endpoint name="UPMSocialReadingHttpSoap12Endpoint" binding="tns:UPMSocialReadingSoap12Binding" address="http://localhost:8080/axis2/services/UPMSocialReading" /></wsdl2:service></wsdl2:description>
