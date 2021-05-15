@@ -20,7 +20,7 @@ public class ClientePrueba {
 		Username name = new Username();
 
 //
-//		// Añade a un usuario siendo admin
+		// Añade a un usuario siendo admin
 //		Username name = new Username();
 //		AddUser addUser = new AddUser();
 //		AddUserResponseE addRes = new AddUserResponseE();

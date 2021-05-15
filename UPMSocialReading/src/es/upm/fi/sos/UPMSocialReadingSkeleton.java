@@ -82,6 +82,7 @@ public class UPMSocialReadingSkeleton {
 			bbddCuentas = new HashMap<String, Cuenta>();
 			started = true;
 			upmAA = new UPMAuthenticationAuthorizationWSSkeletonStub();
+			System.out.println("Primer");
 		}
 		this.usuarioActual = new User();
 		this.usuarioActual.setName("");
@@ -96,7 +97,7 @@ public class UPMSocialReadingSkeleton {
 		String [] lecturas = new String[lista.size()];
 		for(int i = 0; i < lista.size(); i++){
 			//primero se ponen los últimos libros leídos
-			lecturas[i] = lista.get(lista.size() - i).getTitle();
+			lecturas[i] = lista.get(lista.size() - (i + 1)).getTitle();
 		}		
 		return lecturas;
 	}
@@ -106,6 +107,13 @@ public class UPMSocialReadingSkeleton {
 		if (cuenta != null && autenticado) {
 			// se cierra una sesión
 			cuenta.removeSesion();
+			this.sesionesActivas--;
+			if (sesionesActivas == 0) {
+				autenticado = false;
+				usuarioActual = null;
+			}
+		}
+		else if (this.usuarioActual.getName().compareTo("admin")==0){
 			this.sesionesActivas--;
 			if (sesionesActivas == 0) {
 				autenticado = false;
@@ -124,7 +132,7 @@ public class UPMSocialReadingSkeleton {
 		if (this.autenticado && bbddCuentas.containsKey(friend)){
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
 			//comprueba si ya son amigos
-			if (cuentaActual.getFriends().indexOf(friend) != -1){
+			if (cuentaActual.getFriends().indexOf(friend) == -1){
 				cuentaActual.getFriends().add(friend);
 				done = true;
 			}
@@ -294,7 +302,7 @@ public class UPMSocialReadingSkeleton {
 		boolean done = false;
 		
 		if (this.autenticado){
-			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
+			Cuenta cuentaActual = bbddCuentas.get(this.usuarioActual.getName());
 			lista = cuentaActual.getLecturas();
 			done  = true;
 			if (!lista.isEmpty()){
@@ -320,13 +328,13 @@ public class UPMSocialReadingSkeleton {
 		
 		boolean done = false;
 		
-		if (autenticado){
+		if (this.autenticado){
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
 			lecturas = cuentaActual.getLecturas();
 			
 			int i = 0;
 			boolean encontrado = false;
-			while(!encontrado){
+			while(!encontrado && i < lecturas.size()){
 				if (lecturas.get(i).getTitle().compareTo(libro.getTitle()) == 0){
 					encontrado = true;
 				}
@@ -399,12 +407,15 @@ public class UPMSocialReadingSkeleton {
 		String pass = login.getArgs0().getPwd();
 		Cuenta cuentaAux;
 		boolean done = false;
-
+		
 		// si es el admin
 		if (username.compareTo("admin") == 0
 				&& pass.compareTo(admin.getPwd()) == 0) {
 			done = true;
 			this.usuarioActual = admin;
+			this.autenticado = true;
+			this.sesionesActivas++;
+			System.out.println("Soy admin");
 		} else {
 
 			// Si no coincide el autenticado con el nuevo login
@@ -427,7 +438,7 @@ public class UPMSocialReadingSkeleton {
 				}
 
 				if (done) {
-
+					
 					// busca si existe el usuario, si no se mete en la memoria
 					// interna
 					if (!bbddCuentas.containsKey(username)) {
