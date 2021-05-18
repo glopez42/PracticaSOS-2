@@ -48,12 +48,12 @@ public class UPMSocialReadingSkeleton {
 		public void removeSesion() {
 			this.sesiones--;
 		}
-		
-		public ArrayList<String> getFriends(){
+
+		public ArrayList<String> getFriends() {
 			return this.friends;
 		}
-		
-		public ArrayList<Book> getLecturas(){
+
+		public ArrayList<Book> getLecturas() {
 			return this.lecturas;
 		}
 
@@ -82,7 +82,6 @@ public class UPMSocialReadingSkeleton {
 			bbddCuentas = new HashMap<String, Cuenta>();
 			started = true;
 			upmAA = new UPMAuthenticationAuthorizationWSSkeletonStub();
-			System.out.println("Primer");
 		}
 		this.usuarioActual = new User();
 		this.usuarioActual.setName("");
@@ -91,14 +90,14 @@ public class UPMSocialReadingSkeleton {
 		this.sesionesActivas = 0;
 
 	}
-	
-	//funcion que devuelve lecturas de un usuario
-	private String[] getListaLecturas(ArrayList<Book> lista){
-		String [] lecturas = new String[lista.size()];
-		for(int i = 0; i < lista.size(); i++){
-			//primero se ponen los últimos libros leídos
+
+	// funcion que devuelve lecturas de un usuario
+	private String[] getListaLecturas(ArrayList<Book> lista) {
+		String[] lecturas = new String[lista.size()];
+		for (int i = 0; i < lista.size(); i++) {
+			// primero se ponen los últimos libros leídos
 			lecturas[i] = lista.get(lista.size() - (i + 1)).getTitle();
-		}		
+		}
 		return lecturas;
 	}
 
@@ -112,8 +111,7 @@ public class UPMSocialReadingSkeleton {
 				autenticado = false;
 				usuarioActual = null;
 			}
-		}
-		else if (this.usuarioActual.getName().compareTo("admin")==0){
+		} else if (this.usuarioActual.getName().compareTo("admin") == 0) {
 			this.sesionesActivas--;
 			if (sesionesActivas == 0) {
 				autenticado = false;
@@ -122,104 +120,121 @@ public class UPMSocialReadingSkeleton {
 		}
 	}
 
-	public es.upm.fi.sos.AddFriendResponse addFriend(es.upm.fi.sos.AddFriend addFriend) {
+	public es.upm.fi.sos.AddFriendResponse addFriend(
+			es.upm.fi.sos.AddFriend addFriend) {
 		AddFriendResponse addRes = new AddFriendResponse();
 		Response res = new Response();
-		
 		String friend = addFriend.getArgs0().getUsername();
 		boolean done = false;
-		
-		if (this.autenticado && bbddCuentas.containsKey(friend)){
+
+		if (bbddCuentas.containsKey(this.usuarioActual.getName())
+				&& this.autenticado && bbddCuentas.containsKey(friend)) {
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
-			//comprueba si ya son amigos
-			if (cuentaActual.getFriends().indexOf(friend) == -1){
+			// comprueba si ya son amigos
+			if (cuentaActual.getFriends().indexOf(friend) == -1) {
 				cuentaActual.getFriends().add(friend);
 				done = true;
 			}
-			
+
 		}
 		res.setResponse(done);
 		addRes.set_return(res);
 		return addRes;
 	}
-	
 
-	public es.upm.fi.sos.RemoveFriendResponse removeFriend(es.upm.fi.sos.RemoveFriend removeFriend) {
+	public es.upm.fi.sos.RemoveFriendResponse removeFriend(
+			es.upm.fi.sos.RemoveFriend removeFriend) {
 		RemoveFriendResponse remRes = new RemoveFriendResponse();
 		Response res = new Response();
-		
+
 		String friend = removeFriend.getArgs0().getUsername();
 		boolean done = false;
-		
-		if (this.autenticado && bbddCuentas.containsKey(friend)){
+
+		if (this.autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())
+				&& bbddCuentas.containsKey(friend)) {
+
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
-			//comprueba si ya son amigos o no
-			if (cuentaActual.getFriends().indexOf(friend) != -1){
+			// comprueba si ya son amigos o no
+			if (cuentaActual.getFriends().indexOf(friend) != -1) {
 				cuentaActual.getFriends().remove(friend);
 				done = true;
 			}
-			
+
 		}
-		
+
 		res.setResponse(done);
 		remRes.set_return(res);
 		return remRes;
-		
+
 	}
 
 	public es.upm.fi.sos.GetMyFriendReadingsResponse getMyFriendReadings(
 			es.upm.fi.sos.GetMyFriendReadings getMyFriendReadings) {
-		
+
 		GetMyFriendReadingsResponse getRes = new GetMyFriendReadingsResponse();
 		TitleList listaLibros = new TitleList();
-		String [] libros = null;
+		String[] libros = null;
 		String name = getMyFriendReadings.getArgs0().getUsername();
 		ArrayList<Book> lista;
 		boolean done = false;
-		
-		if (this.autenticado){
+
+		if (this.autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())) {
 			Cuenta cuenta = bbddCuentas.get(usuarioActual.getName());
-			//se comprueba si son amigos
-			if (cuenta.getFriends().contains(name)){
+			// se comprueba si son amigos
+			if (cuenta.getFriends().contains(name)) {
 				Cuenta cuentaAmigo = bbddCuentas.get(name);
 				lista = cuentaAmigo.getLecturas();
-				done  = true;
-				if (!lista.isEmpty()){
+				done = true;
+				if (!lista.isEmpty()) {
 					libros = this.getListaLecturas(lista);
-				}else {
+				} else {
 					libros = new String[0];
-				}	
-			}					
+				}
+			}
 		}
-		
+
 		listaLibros.setResult(done);
 		listaLibros.setTitles(libros);
 		getRes.set_return(listaLibros);
 		return getRes;
 	}
 
-	public es.upm.fi.sos.GetMyFriendListResponse getMyFriendList(es.upm.fi.sos.GetMyFriendList getMyFriendList) {
-		
+	public es.upm.fi.sos.GetMyFriendListResponse getMyFriendList(
+			es.upm.fi.sos.GetMyFriendList getMyFriendList) {
+
 		GetMyFriendListResponse getRes = new GetMyFriendListResponse();
 		FriendList list = new FriendList();
 		ArrayList<String> arr;
-		String [] friendList;
+		String[] friendList;
 		boolean done = false;
-		
-		if (this.autenticado){
+
+		if (this.autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())) {
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
 			arr = cuentaActual.getFriends();
-			friendList = new String[arr.size()];
-			
-			//se copian en un array
-			for (int i = 0; i < arr.size(); i++){
+			int existentes = 0;
+			// comprueba cuantos amigos siguen existiendo
+			for (int i = 0; i < arr.size(); i++) {
+				if (bbddCuentas.containsKey(arr.get(i)))
+					existentes++;
+				else {
+					arr.remove(i);
+					i--;
+				}
+			}
+			friendList = new String[existentes];
+
+			// se copian en un array
+			for (int i = 0; i < existentes; i++) {
 				friendList[i] = arr.get(i);
 			}
-			
+
 			list.setFriends(friendList);
 			done = true;
 		}
-		
+
 		list.setResult(done);
 		getRes.set_return(list);
 		return getRes;
@@ -270,8 +285,10 @@ public class UPMSocialReadingSkeleton {
 		String username = removeUser.getArgs0().getUsername();
 		boolean done = false;
 
+		// el admin elimina
 		if (usuarioActual != null
 				&& usuarioActual.getName().compareTo("admin") == 0
+				&& bbddCuentas.containsKey(username)
 				&& username.compareTo("admin") != 0) {
 
 			removeUserStub.setName(username);
@@ -282,10 +299,28 @@ public class UPMSocialReadingSkeleton {
 			done = removeUserResponse.get_return().getResult();
 
 			// si se ha eliminado
-			if (done) {
+			if (done && bbddCuentas.containsKey(username)) {
 				bbddCuentas.remove(username);
 			}
 
+		}
+
+		// el propio usuario se elimina
+		if (usuarioActual != null
+				&& bbddCuentas.containsKey(usuarioActual.getName())
+				&& bbddCuentas.containsKey(username)
+				&& usuarioActual.getName().compareTo(username) == 0) {
+			removeUserStub.setName(username);
+			removeUserStub.setPassword(bbddCuentas.get(username).getUser()
+					.getPwd());
+			removeUserE.setRemoveUser(removeUserStub);
+			removeUserResponse = upmAA.removeUser(removeUserE);
+			done = removeUserResponse.get_return().getResult();
+
+			// si se ha eliminado
+			if (done && bbddCuentas.containsKey(username)) {
+				bbddCuentas.remove(username);
+			}
 		}
 
 		aux.setResponse(done);
@@ -293,57 +328,61 @@ public class UPMSocialReadingSkeleton {
 		return remUser;
 	}
 
-	public es.upm.fi.sos.GetMyReadingsResponse getMyReadings(es.upm.fi.sos.GetMyReadings getMyReadings) {
-		
+	public es.upm.fi.sos.GetMyReadingsResponse getMyReadings(
+			es.upm.fi.sos.GetMyReadings getMyReadings) {
+
 		GetMyReadingsResponse getRes = new GetMyReadingsResponse();
 		TitleList listaLibros = new TitleList();
-		String [] libros = null;
+		String[] libros = null;
 		ArrayList<Book> lista;
 		boolean done = false;
-		
-		if (this.autenticado){
+
+		if (this.autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())) {
 			Cuenta cuentaActual = bbddCuentas.get(this.usuarioActual.getName());
 			lista = cuentaActual.getLecturas();
-			done  = true;
-			if (!lista.isEmpty()){
+			done = true;
+			if (!lista.isEmpty()) {
 				libros = this.getListaLecturas(lista);
-			}else {
+			} else {
 				libros = new String[0];
 			}
 		}
-		
+
 		listaLibros.setResult(done);
 		listaLibros.setTitles(libros);
 		getRes.set_return(listaLibros);
 		return getRes;
-		
+
 	}
 
-	public es.upm.fi.sos.AddReadingResponse addReading(es.upm.fi.sos.AddReading addReading) {
+	public es.upm.fi.sos.AddReadingResponse addReading(
+			es.upm.fi.sos.AddReading addReading) {
 		AddReadingResponse addRes = new AddReadingResponse();
 		Response res = new Response();
 		ArrayList<Book> lecturas;
 		Book libro = addReading.getArgs0();
 		Book aux;
-		
+
 		boolean done = false;
-		
-		if (this.autenticado){
+
+		if (this.autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())) {
 			Cuenta cuentaActual = bbddCuentas.get(usuarioActual.getName());
 			lecturas = cuentaActual.getLecturas();
-			
+
 			int i = 0;
 			boolean encontrado = false;
-			while(!encontrado && i < lecturas.size()){
-				if (lecturas.get(i).getTitle().compareTo(libro.getTitle()) == 0){
+			while (!encontrado && i < lecturas.size()) {
+				if (lecturas.get(i).getTitle().compareTo(libro.getTitle()) == 0) {
 					encontrado = true;
 				}
 				i++;
 			}
-			
-			if(encontrado){
+
+			if (encontrado) {
 				aux = lecturas.get(i);
-				//se cambia solo el autor y la calificacion
+				// se cambia solo el autor y la calificacion
 				aux.setAuthor(libro.getAuthor());
 				aux.setCalification(libro.getCalification());
 			} else {
@@ -351,7 +390,7 @@ public class UPMSocialReadingSkeleton {
 			}
 			done = true;
 		}
-		
+
 		res.setResponse(done);
 		addRes.set_return(res);
 		return addRes;
@@ -376,6 +415,7 @@ public class UPMSocialReadingSkeleton {
 			admin.setPwd(p.getNewpwd());
 			done = true;
 		} else if (autenticado
+				&& bbddCuentas.containsKey(this.usuarioActual.getName())
 				&& usuarioActual.getPwd().compareTo(p.getOldpwd()) == 0) {
 
 			changePassBE.setName(usuarioActual.getName());
@@ -407,7 +447,7 @@ public class UPMSocialReadingSkeleton {
 		String pass = login.getArgs0().getPwd();
 		Cuenta cuentaAux;
 		boolean done = false;
-		
+
 		// si es el admin
 		if (username.compareTo("admin") == 0
 				&& pass.compareTo(admin.getPwd()) == 0) {
@@ -423,6 +463,7 @@ public class UPMSocialReadingSkeleton {
 					&& username.compareTo(this.usuarioActual.getName()) != 0) {
 				done = false;
 			} else {
+				// si existe el usuario
 				done = true;
 				// Si no está autenticado en esta sesión
 				if (!this.autenticado) {
@@ -438,7 +479,7 @@ public class UPMSocialReadingSkeleton {
 				}
 
 				if (done) {
-					
+
 					// busca si existe el usuario, si no se mete en la memoria
 					// interna
 					if (!bbddCuentas.containsKey(username)) {
