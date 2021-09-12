@@ -56,7 +56,7 @@ public class Cliente {
 		//String passClienteExistente = "hlopezv11698";
 
 		String admin = "admin";
-		String pAdmin = "admin"; //OJO CAMBIAR¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿!!!!!!!!!!!!!!¿!¿!¿!¿!¿!¿!¿¿!¿!¿¿!¿!¿!¿¿
+		String pAdmin = "admin";
 
 		Login l;
 		LoginResponse logRes;
